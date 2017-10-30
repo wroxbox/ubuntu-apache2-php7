@@ -48,7 +48,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 	&& rm -fr /var/lib/apt/lists/*
 
 #RUN pecl install apcu_bc-1.0.3 -y
-RUN pecl7.X-sp install apcu
+RUN pecl7.1-sp install apcu
 RUN echo "extension=apcu.so" >> /etc/php/7.1/apache2/conf.d/apcu.ini
 RUN echo "extension=apc.so" >> /etc/php/7.1/apache2/conf.d/apc.ini
 RUN a2enmod rewrite
