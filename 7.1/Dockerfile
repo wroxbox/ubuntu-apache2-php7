@@ -1,9 +1,14 @@
 FROM ubuntu:16.04
 
-LABEL maintainer="mobingi,Inc."
+LABEL maintainer="Antti Tuppurainen"
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
 		apache2 \
+		vim \
+		nano \
+		git \
+		zip \
+		curl \
 		software-properties-common \
 		supervisor \
 	&& apt-get clean \
@@ -30,11 +35,19 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 		php-memcached \
 		php-pear \
 		php-redis \
+		php-xdebug \
 	&& apt-get clean \
 	&& rm -fr /var/lib/apt/lists/*
 
 RUN a2enmod rewrite
 COPY conf/000-default.conf /etc/apache2/sites-available/000-default.conf
+COPY conf/000-default-ssl.conf /etc/apache2/sites-available/000-default-ssl.conf
+COPY conf/server.crt /etc/ssl/certs/server.crt
+COPY conf/server.key /etc/ssl/private/server.key
+COPY conf/php.ini /etc/php/7.0/apache2/php.ini
+
+RUN a2enmod ssl
+RUN a2ensite 000-default-ssl
 
 COPY conf/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
