@@ -82,6 +82,7 @@ COPY conf/config /config
 RUN ln -sf /dev/stdout /var/log/apache2/access.log
 RUN ln -sf /dev/stderr /var/log/apache2/error.log
 
+VOLUME ["/var/www/html"]
 
 EXPOSE 80
 CMD ["/run.sh"]
